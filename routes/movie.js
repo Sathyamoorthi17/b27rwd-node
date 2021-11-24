@@ -28,19 +28,20 @@ router
     const movie = await getMoviesByName(name);
       response.send(movie);
 })
-  .post(async (request,response) => {
+.post(async (request,response) => {
     const data = request.body;
     const result = await createMovies(data);
       response.send(result);
 });
 
-router.get("/:id", async (request,response) => {
+router
+.route("/:id")
+.get(async (request,response) => {
     const {id} = request.params;
     const movie = await getMoviesById(id);
     response.send (movie || {messaage : "No matching movies"});
-});
-
-router.delete("/:id", async (request,response) => {
+})
+.delete(async (request,response) => {
   const {id} = request.params;
   const movie = await deleteMovies(id);
   response.send (movie || {messaage : "No matching movies"});
