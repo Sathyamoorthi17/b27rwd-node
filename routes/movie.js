@@ -10,7 +10,9 @@ import {
 
 const router = express.Router();
 
-router.get("/" ,async (request, response) => {
+router
+.route("/")
+.get(async (request, response) => {
     let filter = request.query;
 
     if(filter.rating){
@@ -19,6 +21,17 @@ router.get("/" ,async (request, response) => {
 
     const movies = await getAllMovies(filter);
     response.send(movies);
+})
+.put(async (request, response) => {
+    const {name} = request.query;
+    await updateMoviesByName(name, request);
+    const movie = await getMoviesByName(name);
+      response.send(movie);
+})
+  .post(async (request,response) => {
+    const data = request.body;
+    const result = await createMovies(data);
+      response.send(result);
 });
 
 router.get("/:id", async (request,response) => {
@@ -33,17 +46,6 @@ router.delete("/:id", async (request,response) => {
   response.send (movie || {messaage : "No matching movies"});
 });
 
-router.put("/", async (request, response) => {
-  const {name} = request.query;
-  await updateMoviesByName(name, request);
-  const movie = await getMoviesByName(name);
-    response.send(movie);
-});
 
-router.post("/", async (request,response) => {
-  const data = request.body;
-  const result = await createMovies(data);
-    response.send(result);
-});
 
 export const movieRouter = router;
