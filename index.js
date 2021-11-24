@@ -13,7 +13,7 @@ dotenv.config();
 //Need middleware - all requests - apply the function
 app.use(express.json());
 
-const PORT = 9000;
+const PORT = process.env.PORT || 9000;
 
 // const MONGO_URL = "mongodb://localhost";
 const MONGO_URL = process.env.MONGO_URL;
