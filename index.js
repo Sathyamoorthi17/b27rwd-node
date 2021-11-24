@@ -55,8 +55,8 @@ app.delete("/movies/:id", async (request,response) => {
 
 app.put("/movies", async (request, response) => {
   const {name} = request.query;
-  const client = await updateMoviesByName(name, request);
-  const movie = await getMoviesByName(client, name);
+  await updateMoviesByName(name, request);
+  const movie = await getMoviesByName(name);
     response.send(movie);
 });
 
@@ -79,7 +79,8 @@ async function updateMoviesByName(name, request) {
   return client;
 }
 
-async function getMoviesByName(client, name) {
+async function getMoviesByName(name) {
+  const client = await createConnection();
   return await client
     .db("b27rwd")
     .collection("movies")
